@@ -1,0 +1,1083 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "# A Introduction\n  This is Luxor's API Documentation. The publicly available read-only Luxor API uses HTTP GET requests with JSON arguments and JSON responses. \n  Luxor APIs don't require Authentication. Anyone is free to consume the data, however, keep in mind that the API pull are rate-limited. \n  If you are planning to build something, find bugs or have questions please reach out to us at **hello@luxor.tech**.\n\n # Authentication\nLuxor uses OAuth2 - an open protocol to allow secure authorization in a simple\nand standard method from web, mobile and desktop applications. (Coming soon)\n",
+      "version": "1.0.0",
+      "title": "Luxor Switch API Documentation",
+      "termsOfService": "https://mining.luxor.tech/en/tos",
+      "contact": {
+        "email": "hello@luxor.tech"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "https://api.luxor.tech/"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Switch",
+        "description": "Access Luxor Switch market PPS rates, pool stats and miner specific data."
+      },
+      {
+        "name": "Pools",
+        "description": "Access Luxor Mining Pools metrics."
+      },
+      {
+        "name": "Users",
+        "description": "Access Luxor Accounts configuration parameters and data."
+      },
+      {
+        "name": "Catalyst",
+        "description": "Access Luxor Catalyst transaction and exchange data."
+      }
+    ],
+    "paths": {
+      "/switch/equihash/stats": {
+        "get": {
+          "tags": [
+            "Switch"
+          ],
+          "summary": "Get PPS rates, switching events and uplift data.",
+          "operationId": "getSwitchMarket",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "profit_switch_events": {
+                        "description": "Profit switching events",
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "description": "Timestamp of the profit switching event",
+                            "type": "string"
+                          },
+                          "from_currency_profile_name": {
+                            "type": "string"
+                          },
+                          "to_currency_profile_name": {
+                            "type": "string"
+                          },
+                          "pps_rate": {
+                            "description": "PPS at the time of the switching event",
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "pps_rates": {
+                        "description": "PPS rates per coin",
+                        "type": "object",
+                        "properties": {
+                          "coin": {
+                            "description": "Coin ticker. For example, ARRR, ZEC, ZEN or KMD.",
+                            "type": "object",
+                            "properties": {
+                              "time": {
+                                "type": "string"
+                              },
+                              "usd_price": {
+                                "type": "integer"
+                              },
+                              "btc_price": {
+                                "type": "integer"
+                              },
+                              "network_difficulty": {
+                                "type": "number"
+                              },
+                              "pps_rate": {
+                                "description": "PPS rate in milisatoshis (Bitcoin / 1e14).",
+                                "type": "integer"
+                              },
+                              "pps_value": {
+                                "description": "PPS rate in Altcoin minimum unit.",
+                                "type": "integer"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "uplift_data": {
+                        "description": "Get a timeseries comparsion of the Luxor Switch PPS rate vs a basecoin (ZEC)",
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "string"
+                          },
+                          "basecoin": {
+                            "type": "integer"
+                          },
+                          "uplift": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/switch/equihash/pool/stats": {
+        "get": {
+          "tags": [
+            "Switch"
+          ],
+          "summary": "Get global pool stats",
+          "operationId": "getPoolMetrics",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "pool_stats": {
+                        "description": "Global pool stats",
+                        "type": "object",
+                        "properties": {
+                          "valid_shares": {
+                            "type": "object",
+                            "description": "Accepted shares by the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "valid_share_diff": {
+                            "type": "object",
+                            "description": "Accepted share difficulty by the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "invalid_shares": {
+                            "type": "object",
+                            "description": "Invalid shares submitted to the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "stale_shares": {
+                            "type": "object",
+                            "description": "Shares submitted based on an older block",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "stale_share_diff": {
+                            "type": "object",
+                            "description": "Difficulty of the stale shares",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "worker_count": {
+                            "type": "object",
+                            "description": "Count of workers",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "revenue": {
+                            "type": "object",
+                            "description": "Total balance updates made by the Profit Switcher",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "currently_mining": {
+                            "description": "Coin being mined by the Profit Switcher",
+                            "type": "string"
+                          },
+                          "region_stats": {
+                            "type": "object",
+                            "description": "Workers per Stratum Region (Global, US, EU and Asia)"
+                          },
+                          "agent_stats": {
+                            "type": "object",
+                            "description": "Workers by Mining Client"
+                          }
+                        }
+                      },
+                      "global_stats": {
+                        "description": "Time series data of the Profit Switcher Pool Stats",
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "string"
+                          },
+                          "hashrate": {
+                            "type": "integer"
+                          },
+                          "workers": {
+                            "type": "integer"
+                          },
+                          "pps_rate": {
+                            "type": "integer"
+                          },
+                          "active_coin": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/switch/equihash/pool/stats/{username}": {
+        "get": {
+          "tags": [
+            "Switch"
+          ],
+          "summary": "Get miner specific hashing stats",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "required": true,
+              "description": "The Luxor username of the user to return",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "operationId": "getMiner",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "username": {
+                        "description": "Username requested stats.",
+                        "type": "string"
+                      },
+                      "details": {
+                        "description": "Username share stats",
+                        "type": "object",
+                        "properties": {
+                          "valid_shares": {
+                            "type": "object",
+                            "description": "Accepted shares by the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "valid_share_diff": {
+                            "type": "object",
+                            "description": "Accepted share difficulty by the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "invalid_shares": {
+                            "type": "object",
+                            "description": "Invalid shares submitted to the pool",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "stale_shares": {
+                            "type": "object",
+                            "description": "Shares submitted based on an older block",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "stale_share_diff": {
+                            "type": "object",
+                            "description": "Difficulty of the stale shares",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "hashrate": {
+                            "type": "object",
+                            "description": "Username hashrate stats",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "revenue": {
+                            "type": "object",
+                            "description": "Username revenue stats",
+                            "properties": {
+                              "five_min": {
+                                "type": "integer"
+                              },
+                              "fifteen_min": {
+                                "type": "integer"
+                              },
+                              "one_hour": {
+                                "type": "integer"
+                              },
+                              "six_hour": {
+                                "type": "integer"
+                              },
+                              "one_day": {
+                                "type": "integer"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "miners": {
+                        "type": "integer"
+                      },
+                      "hashrate": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/{coin}/api/stats": {
+        "get": {
+          "tags": [
+            "Pools"
+          ],
+          "summary": "Get global pool stats",
+          "parameters": [
+            {
+              "name": "coin",
+              "in": "path",
+              "required": true,
+              "description": "The Coin Ticker of the desired pool. For example, BTC, ZEC, ZEN, SC, DCR, etc.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "operationId": "getPoolStats",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "difficulty": {
+                        "type": "integer"
+                      },
+                      "pp_hash": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "pp_share": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "block_subsidy": {
+                        "type": "integer",
+                        "description": "Block reward in the coin minimum unit"
+                      },
+                      "tp": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "pool_difficulty": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "now": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "prev_hash": {
+                        "type": "string",
+                        "description": "TBD"
+                      },
+                      "total_miners": {
+                        "type": "integer",
+                        "description": "Total amount of miners that submitted at least 1 valid share in the last TBD hours."
+                      },
+                      "total_online": {
+                        "type": "integer",
+                        "description": "Total amount of miners currenlty submitting valid shares to the pool."
+                      },
+                      "valid_shares": {
+                        "type": "integer",
+                        "description": "Total amount of valid shares submitted over the last TBD hours."
+                      },
+                      "invalid_shares": {
+                        "type": "integer",
+                        "description": "Total amount of invalid shares submitted over the last TBD hours."
+                      },
+                      "accepted_shares": {
+                        "type": "integer",
+                        "description": "Total amount of accepted shares by the pool over the last TBD hours."
+                      },
+                      "rejected_shares": {
+                        "type": "integer",
+                        "description": "Total amount of rejected shares by the pool over the last TBD hours."
+                      },
+                      "timed_out_miners": {
+                        "type": "integer",
+                        "description": "TBD"
+                      },
+                      "pending_payouts": {
+                        "type": "string",
+                        "description": "Outstanding balances to be paid by the pool in the coin base unit."
+                      },
+                      "hashrate": {
+                        "type": "number",
+                        "description": "Current hashrate being pointed towards the pool."
+                      },
+                      "hashrate_24h": {
+                        "type": "number",
+                        "description": "Average hashrate pointed towards the pool in the last 24 hours."
+                      },
+                      "height": {
+                        "type": "integer",
+                        "description": "Current block height the pool is attempting to find a valid block solution."
+                      },
+                      "total_kickback": {
+                        "type": "integer",
+                        "description": "Donations made from Luxor's fee to support different projects."
+                      },
+                      "users": {
+                        "type": "object",
+                        "description": "Top 100 Anonymous miners hashrate stats and their worker's hashing data.",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "hashrate": {
+                            "type": "number"
+                          },
+                          "hashrate_24h": {
+                            "type": "number"
+                          },
+                          "valid_shares_count": {
+                            "type": "integer"
+                          },
+                          "invalid_shares_count": {
+                            "type": "integer"
+                          },
+                          "accepts_count": {
+                            "type": "integer"
+                          },
+                          "rejects_count": {
+                            "type": "integer"
+                          },
+                          "max_share_diff": {
+                            "type": "integer"
+                          },
+                          "balance": {
+                            "type": "integer"
+                          },
+                          "miners": {
+                            "type": "object",
+                            "description": "Worker related statistics",
+                            "properties": {
+                              "worker_name": {
+                                "type": "string"
+                              },
+                              "affinity": {
+                                "type": "string",
+                                "description": "Stratum name to which the worker is connected"
+                              },
+                              "miner_type": {
+                                "type": "string"
+                              },
+                              "hashrate": {
+                                "type": "number"
+                              },
+                              "hashrate_1h": {
+                                "type": "number"
+                              },
+                              "max_share_diff": {
+                                "type": "integer"
+                              },
+                              "last_beat": {
+                                "type": "integer"
+                              },
+                              "stale_share_count": {
+                                "type": "integer"
+                              },
+                              "stale_share_diff": {
+                                "type": "integer"
+                              },
+                              "valid_shares_count": {
+                                "type": "integer"
+                              },
+                              "invalid_shares_count": {
+                                "type": "integer"
+                              },
+                              "valid_unpaid_shares_diff": {
+                                "type": "integer"
+                              },
+                              "valid_paid_shares_diff": {
+                                "type": "integer"
+                              },
+                              "invalid_shares_diff": {
+                                "type": "integer"
+                              },
+                              "accepts_count": {
+                                "type": "integer"
+                              },
+                              "rejects_count": {
+                                "type": "integer"
+                              },
+                              "warning": {
+                                "type": "boolean"
+                              },
+                              "timeout": {
+                                "type": "boolean"
+                              },
+                              "miner_luck": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/{coin}/api/blocks": {
+        "get": {
+          "tags": [
+            "Pools"
+          ],
+          "summary": "Get block finds",
+          "parameters": [
+            {
+              "name": "coin",
+              "in": "path",
+              "required": true,
+              "description": "The Coin Ticker of the desired pool. For example, BTC, ZEC, ZEN, SC, DCR, etc.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "operationId": "getBlockStats",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "height": {
+                        "type": "integer",
+                        "description": "Height of the block found by Luxor."
+                      },
+                      "hash": {
+                        "type": "string",
+                        "description": "Hash of the block found by Luxor."
+                      },
+                      "timestamp": {
+                        "type": "integer",
+                        "description": "Timestamp at which the the block was found."
+                      },
+                      "finder": {
+                        "type": "string",
+                        "description": "Username or address of the miner that found the valid solution for the block."
+                      },
+                      "payout": {
+                        "type": "integer",
+                        "description": "Block reward in the coin base unit."
+                      },
+                      "paid": {
+                        "type": "boolean",
+                        "description": "Checks wether the block reward has been paid out to miners."
+                      },
+                      "luck": {
+                        "type": "number",
+                        "description": "Luck for the block found."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/{coin}/api/user/{username}": {
+        "get": {
+          "tags": [
+            "Pools"
+          ],
+          "summary": "Get global miner hashing stats",
+          "parameters": [
+            {
+              "name": "coin",
+              "in": "path",
+              "required": true,
+              "description": "The Coin Ticker of the desired pool. For example, BTC, ZEC, ZEN, SC, DCR, etc.",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "username",
+              "in": "path",
+              "required": true,
+              "description": "The Luxor username or the anonymous miner payout address.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "operationId": "getMinerStats",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "description": "Address or Username of the miner"
+                      },
+                      "balance": {
+                        "type": "string",
+                        "description": "Outstanding balance of the miner in the coin base unit."
+                      },
+                      "estimated_balance": {
+                        "type": "integer"
+                      },
+                      "hashrate_1h": {
+                        "type": "integer"
+                      },
+                      "hashrate_24h": {
+                        "type": "integer"
+                      },
+                      "valid_shares_five_min": {
+                        "type": "integer"
+                      },
+                      "valid_shares_fifteen_min": {
+                        "type": "integer"
+                      },
+                      "valid_shares_one_hour": {
+                        "type": "integer"
+                      },
+                      "valid_shares_six_hour": {
+                        "type": "integer"
+                      },
+                      "valid_shares_one_day": {
+                        "type": "integer"
+                      },
+                      "invalid_shares_five_min": {
+                        "type": "integer"
+                      },
+                      "invalid_shares_fifteen_min": {
+                        "type": "integer"
+                      },
+                      "invalid_shares_one_hour": {
+                        "type": "integer"
+                      },
+                      "invalid_shares_six_hour": {
+                        "type": "integer"
+                      },
+                      "invalid_shares_one_day": {
+                        "type": "integer"
+                      },
+                      "stale_shares_five_min": {
+                        "type": "integer"
+                      },
+                      "stale_shares_fifteen_min": {
+                        "type": "integer"
+                      },
+                      "stale_shares_one_hour": {
+                        "type": "integer"
+                      },
+                      "stale_shares_six_hour": {
+                        "type": "integer"
+                      },
+                      "stale_shares_one_day": {
+                        "type": "integer"
+                      },
+                      "payouts_five_min": {
+                        "type": "string"
+                      },
+                      "payouts_fifteen_min": {
+                        "type": "string"
+                      },
+                      "payouts_one_hour": {
+                        "type": "string"
+                      },
+                      "payouts_six_hour": {
+                        "type": "string"
+                      },
+                      "payouts_one_day": {
+                        "type": "string"
+                      },
+                      "total_payouts": {
+                        "type": "string"
+                      },
+                      "blocks_found": {
+                        "type": "integer"
+                      },
+                      "last_share_time": {
+                        "type": "integer"
+                      },
+                      "payouts": {
+                        "type": "object",
+                        "description": "This collection of the last 100 transactions for an address or user including blockchain transactions and catalyst internal transactions.",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "description": "This field gets populated with the address of anonymous miner."
+                          },
+                          "username": {
+                            "type": "string",
+                            "description": "This field gets populated with the Luxor Username of the account miner."
+                          },
+                          "payment_id": {
+                            "type": "string",
+                            "description": "Payment ID for the anonymous miner address."
+                          },
+                          "amount": {
+                            "type": "string",
+                            "description": "Payment amount in the coin base unit."
+                          },
+                          "tx_id": {
+                            "type": "string",
+                            "description": "Transaction ID that can be found in the block explorer if it is not a Catalyst transaction."
+                          },
+                          "time": {
+                            "type": "string",
+                            "description": "Time in which the transaction was executed."
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Status of the transaction."
+                          },
+                          "operation_id": {
+                            "type": "string",
+                            "description": "TBD"
+                          },
+                          "LuxorTransactionID": {
+                            "type": "integer",
+                            "description": "TBD"
+                          },
+                          "AutoExchangeRequestID": {
+                            "type": "integer",
+                            "description": "TBD"
+                          },
+                          "RawResponse": {
+                            "type": "integer",
+                            "description": "TBD"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/accounts/currencyprofiles": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get payment thresholds base configuration",
+          "operationId": "getBaseWalletConfig",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "minimumStaticDifficulty": {
+                        "type": "integer",
+                        "description": "Minimum statistic difficulty a worker can set."
+                      },
+                      "maximumStaticDifficulty": {
+                        "type": "integer",
+                        "description": "Maximum statistic difficulty a worker can set."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Coin ticker"
+                      },
+                      "minimumPaymentThreshold": {
+                        "type": "string",
+                        "description": "Minimum payment threshold an account can set. Units are in the coin base unit."
+                      },
+                      "maximumPaymentThreshold": {
+                        "type": "string",
+                        "description": "Maximum payment threshold an account can set. Units are in the coin base unit."
+                      },
+                      "minimumPaymentIntervalHours": {
+                        "type": "integer"
+                      },
+                      "maximumPaymentIntervalHours": {
+                        "type": "integer"
+                      },
+                      "baseUnit": {
+                        "type": "string",
+                        "description": "Base unit definition for the coin."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      }
+    }
+  }
