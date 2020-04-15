@@ -21,7 +21,7 @@
     "tags": [
       {
         "name": "Switch",
-        "description": "Access Luxor Switch live hashprices, pool stats and miner specific data."
+        "description": "## Access Luxor Switch live hashprices, pool stats and miner specific data."
       },
       {
         "name": "Pools",
@@ -42,7 +42,7 @@
           "tags": [
             "Switch"
           ],
-          "summary": "Get PPS rates, switching events and uplift data.",
+          "summary": "### Get PPS rates, switching events and uplift data.",
           "operationId": "getSwitchMarket",
           "responses": {
             "200": {
