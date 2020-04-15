@@ -4,6 +4,11 @@
       "description": "# Introduction\n  The publicly available read-only Luxor APIs use HTTP GET requests with JSON arguments and JSON responses. \n  Luxor global endpoints do not require Authentication.  Anyone is free to consume the data, however, API pulls are rate-limited. \n\n  If you are planning to build an app, find bugs or have questions please reach out to us at **hello@luxor.tech**.\n",
       "version": "1.0.0",
       "title": "Luxor APIs Documentation",
+      "x-logo": {
+        "url": "https://cdn.discordapp.com/attachments/559856089529843742/699668480340918353/wafawef.png",
+        "backgroundColor": "#FFFFFF",
+        "altText": "Luxor Logo"
+      }
       "termsOfService": "https://mining.luxor.tech/en/tos",
       "contact": {
         "email": "hello@luxor.tech"
