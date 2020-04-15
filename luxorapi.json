@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "description": "#Introduction\n  The publicly available read-only Luxor API uses HTTP GET requests with JSON arguments and JSON responses. \n  Luxor global endpoints do not require Authentication.  Anyone is free to consume the data, however, API pulls are rate-limited. \n  If you are planning to build something, find bugs or have questions please reach out to us at **hello@luxor.tech**.\n # Authentication\nLuxor uses OAuth2 - an open protocol to allow secure authorization in a simple\nand standard method from web, mobile and desktop applications. (Coming soon)\n",
+      "description": "#Introduction\n  The publicly available read-only Luxor API uses HTTP GET requests with JSON arguments and JSON responses. \n  Luxor global endpoints do not require Authentication.  Anyone is free to consume the data, however, API pulls are rate-limited. \n  If you are planning to build something, find bugs or have questions please reach out to us at **hello@luxor.tech**.\n # Authentication\nLuxor uses OAuth2 - an open protocol to allow secure authorization in a simple\nand standard method from web, mobile and desktop applications. (Coming soon).",
       "version": "1.0.0",
       "title": "Luxor APIs Documentation",
       "termsOfService": "https://mining.luxor.tech/en/tos",
@@ -21,7 +21,7 @@
     "tags": [
       {
         "name": "Switch",
-        "description": "Access Luxor Switch market PPS rates, pool stats and miner specific data."
+        "description": "Access Luxor Switch live hashprices, pool stats and miner specific data."
       },
       {
         "name": "Pools",
@@ -954,11 +954,12 @@
                         "type": "integer"
                       },
                       "last_share_time": {
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "Time Epoch"
                       },
                       "payouts": {
                         "type": "object",
-                        "description": "This collection of the last 100 transactions for an address or user including blockchain transactions and catalyst internal transactions.",
+                        "description": "Collection of the last 100 transactions for an address or user including blockchain transactions and catalyst internal transactions.",
                         "properties": {
                           "address": {
                             "type": "string",
@@ -1005,6 +1006,116 @@
                             "description": "TBD"
                           }
                         }
+                      },
+                      "miners": {
+                          "type": "object",
+                          "description": "Collection of all the workers associated to the user.",
+                          "properties": {
+                              "name": {
+                                  "type": "string",
+                                  "description": "Name assigned by the user to the worker, usually a single ASIC or GPU rig."
+                              },
+                              "affinity": {
+                                  "type": "string",
+                                  "description": "Concatenation of the Stratum name, region and firmware."
+                              },
+                              "miner_type": {
+                                  "type": "string",
+                                  "description": "Stratum"
+                              },
+                              "last_share_time": {
+                                "type": "integer",
+                                "description": "Time Epoch"
+                              },
+                              "last_share_timestamp": {
+                                "type": "string"
+                              },
+                              "total_shares": {
+                                "type": "integer"
+                              },  
+                              "hashrate_five_min": {
+                                "type": "integer"
+                              },
+                              "hashrate_fifteen_min": {
+                                "type": "integer"
+                              },
+                              "hashrate_one_hour": {
+                                "type": "integer"
+                              },
+                              "hashrate_six_hour": {
+                                "type": "integer"
+                              },
+                              "hashrate_one_day": {
+                                "type": "integer"
+                              },
+                              "stale_five_min": {
+                                "type": "integer"
+                              },
+                              "stale_fifteen_min": {
+                                "type": "integer"
+                              },
+                              "stale_one_hour": {
+                                "type": "integer"
+                              },
+                              "stale_six_hour": {
+                                "type": "integer"
+                              },
+                              "stale_one_day": {
+                                "type": "integer"
+                              }, 
+                              "invalid_five_min": {
+                                "type": "integer"
+                              },
+                              "invalid_fifteen_min": {
+                                "type": "integer"
+                              },
+                              "invalid_one_hour": {
+                                "type": "integer"
+                              },
+                              "invalid_six_hour": {
+                                "type": "integer"
+                              },
+                              "invalid_one_day": {
+                                "type": "integer"
+                              },
+                              "revenue_five_min": {
+                                "type": "string"
+                              },
+                              "revenue_fifteen_min": {
+                                "type": "string"
+                              },
+                              "revenue_one_hour": {
+                                "type": "string"
+                              },
+                              "revenue_six_hour": {
+                                "type": "string"
+                              },
+                              "revenue_one_day": {
+                                "type": "string"
+                              }, 
+                              "status": {
+                                  "type": "string",
+                                  "description": "ACTIVE, WARNING OR DEAD."
+                              }
+                          }
+                      },
+                      "hashrate": {
+                          "type": "object",
+                          "description": "User hashrate in 5 minute intervals.",
+                          "properties": {
+                              "time": {
+                                  "type": "integer",
+                                  "description": "Time Epoch"
+                              },
+                              "timestamp": {
+                                  "type": "string",
+                                  "description": "Timestamp"
+                              },
+                              "hashrate": {
+                                  "type": "number",
+                                  "description": "Average hashrate for the interval."
+                              }
+                          }
                       }
                     }
                   }
