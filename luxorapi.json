@@ -6,9 +6,9 @@
       "title": "Luxor APIs Documentation",
       "termsOfService": "https://mining.luxor.tech/en/tos",
       "x-logo": {
-        "url": "https://redocly.github.io/redoc/petstore-logo.png",
+        "url": "/menu-logo.png",
         "backgroundColor": "#FFFFFF",
-        "altText": "Petstore logo"
+        "altText": "Luxor Mining Logo"
       },
       "contact": {
         "email": "hello@luxor.tech"
