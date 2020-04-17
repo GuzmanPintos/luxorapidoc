@@ -364,7 +364,7 @@
               "name": "username",
               "in": "path",
               "required": true,
-              "description": "The Luxor username of the user to return",
+              "description": "Luxor Username",
               "schema": {
                 "type": "string"
               }
@@ -541,6 +541,70 @@
                       },
                       "hashrate": {
                         "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "The requested resource doesn't exist."
+            },
+            "405": {
+              "description": "The method used isn't supported."
+            }
+          }
+        }
+      },
+      "/switch/equihash/pool/stats/uplift/{username}": {
+        "get": {
+          "tags": [
+            "Switch"
+          ],
+          "summary": "Switch PPS rates comparison against the underlying chains.",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "required": true,
+              "description": "Luxor Username",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "operationId": "getMinerUplift",
+          "responses": {
+            "200": {
+              "description": "Everything worked as expected.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "description": "Timestamp",
+                        "type": "string"
+                      },
+                      "switch": {
+                        "description": "Cummulative Switch Revenue",
+                        "type": "integer"
+                      },
+                      "Zcash": {
+                        "description": "Cummulative Zcash Revenue",
+                        "type": "integer"
+                      },
+                      "Horizen": {
+                        "description": "Cummulative Horizen Revenue",
+                        "type": "integer"
+                      },
+                      "Pirate": {
+                        "description": "Cummulative Pirate Revenue",
+                        "type": "integer"
+                      },
+                      "Komodo": {
+                        "description": "Cummulative Komodo Revenue",
+                        "type": "integer"
                       }
                     }
                   }
