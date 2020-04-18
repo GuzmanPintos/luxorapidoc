@@ -7,7 +7,6 @@
       "termsOfService": "https://mining.luxor.tech/en/tos",
       "x-logo": {
         "url": "https://raw.githubusercontent.com/GuzmanPintos/luxorapidoc/master/menu-logo.png",
-        "backgroundColor": "#FFFFFF",
         "altText": "Luxor Mining Logo"
       },
       "contact": {
